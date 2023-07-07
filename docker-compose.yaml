@@ -1,0 +1,38 @@
+version: "3"
+services:
+  web-server:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8001:80
+    image: myimage
+    volumes:
+      - .:/var/www/html
+    environment:
+      DB_HOST: mysql
+      DB_USER: PWeb
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: PWeb
+      DB_PORT: 3306
+
+  mysql:
+    image: mariadb
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: 1Zhongguo
+      MARIADB_USER: PWeb
+      MARIADB_PASSWORD: 1Zhongguo
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8002:80
+    environment:
+      - PMA_ABRITRARY=1
+      - PMA_HOST=mysql
+
+volumes:
+  db_data:
+
